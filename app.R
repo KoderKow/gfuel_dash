@@ -26,8 +26,8 @@ gfuel <- read_sheet("https://docs.google.com/spreadsheets/d/11JC2nnhlY6pg6zDEuzS
     clean_names() %>% 
     mutate(
         date_tried = ymd(date),
-        flavor_hotlink = str_c("<a href='", url, "'>", flavor, "</a>"),
-        image_url = str_c("<img src='", image_url, "' height='45'></img>")
+        flavor_hotlink = str_c("<a href='", url, "' target='_blank'>", flavor, "</a>"),
+        image_url = str_c("<img src='", image_url, "' target='_blank' height='45'></img>")
     )
 
 gfuel_long <- gfuel %>% 
@@ -218,10 +218,10 @@ body = dashboardBody(
             p("Lexi and I decided it would be fun to try GFuel after seeing many of our liked internet personalities mentioning it. We got a full container of Sour Grape and a sample pack. I thought it would be fun to track our rating per flavor. As someone who works with data and creates shiny dashboards at work, what better idea to do with this data than to create a pretty slick dashboard? :) This is a fun little project Lexi and I have been working on! Hopefully our ratings and findings will bring joy to those who come across this."),
             hr(),
             h2("How was this built?"),
-            HTML("<a href='https://www.r-project.org/about.html'>R</a> and <a href='https://shiny.rstudio.com/'>Shiny</a>. Source code can be found <a href='https://github.com/KoderKow/gfuel_dash'>here</a>!"),
+            HTML("<a href='https://www.r-project.org/about.html' target='_blank'>R</a> and <a href='https://shiny.rstudio.com/' target='_blank'>Shiny</a>. Source code can be found <a href='https://github.com/KoderKow/gfuel_dash' target='_blank'>here</a>!"),
             hr(),
             h2("What is the data source?"), # ADD URLS!
-            HTML("We use <a href='https://www.google.com/sheets/about/'>Google Sheets</a> as a data source and the R package <a href='https://github.com/tidyverse/googlesheets4'>googlesheets4</a> to read in the data.")
+            HTML("We use <a href='https://www.google.com/sheets/about/' target='_blank'>Google Sheets</a> as a data source and the R package <a href='https://github.com/tidyverse/googlesheets4' target='_blank'>googlesheets4</a> to read in the data.")
         )
     )
 )
