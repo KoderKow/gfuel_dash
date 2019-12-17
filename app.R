@@ -47,7 +47,7 @@ gfuel_long <- gfuel %>%
 
 avg_rating <- gfuel_long %>% 
     group_by(person) %>% 
-    summarise(avg = mean(rating))
+    summarise(avg = round(mean(rating), 2))
 
 current_favorite <- gfuel_long %>% 
     filter(favorite)
@@ -59,7 +59,7 @@ recent_new_flavor <- gfuel %>%
 rn_year <- gfuel$date_tried %>% 
     max() %>% 
     year()
-    
+
 rn_month <- gfuel$date_tried %>% 
     max() %>% 
     month(label = TRUE, abbr = FALSE)
@@ -74,6 +74,11 @@ flavors_tried <- gfuel %>%
     pull(flavor) %>% 
     unique() %>% 
     length()
+
+t_results <- t.test(x = gfuel$kyle_rating, y = gfuel$lexi_rating) %>% 
+    pluck("p.value")
+
+same_taste <- ifelse(t_results >= 0.05, "Yes!", "No.")
 
 header = dashboardHeaderPlus(title = "GFuel")
 sidebar = dashboardSidebar(
@@ -113,6 +118,14 @@ body = dashboardBody(
                     fill = TRUE,
                     color = "blue",
                     icon = icon("clock")
+                ),
+                infoBox(
+                    title = "Do Kyle and Lexi have the Same Taste?",
+                    subtitle = "Determined using a t test",
+                    value = same_taste,
+                    fill = TRUE,
+                    color = "blue",
+                    icon = icon("utensils")
                 )
             ),
             ## Profiles ----
@@ -201,7 +214,7 @@ body = dashboardBody(
         ),
         tabItem(
             tabName = "about",
-            h2("What is this? (Under Construction)"),
+            h2("What is this?"),
             p("Lexi and I decided it would be fun to try GFuel after seeing many of our liked internet personalities mentioning it. We got a full container of Sour Grape and a sample pack. I thought it would be fun to track our rating per flavor. As someone who works with data and creates shiny dashboards at work, what better idea to do with this data than to create a pretty slick dashboard? :) This is a fun little project Lexi and I have been working on! Hopefully our ratings and findings will bring joy to those who come across this."),
             hr(),
             h2("How was this built?"),
@@ -217,8 +230,7 @@ ui <- dashboardPagePlus(
     header = header,
     sidebar = sidebar,
     body = body,
-    collapse_sidebar = TRUE,
-    skin = "yellow"
+    collapse_sidebar = TRUE
 )
 
 # Define server logic required to draw a histogram
@@ -269,7 +281,14 @@ server <- function(input, output) {
             arrange(flavor) %>% 
             select(image = image_url, flavor = flavor_hotlink, date_tried, `Kyle's Rating` = kyle_rating, `Lexi's Rating` = lexi_rating) %>%
             snake_to() %>% 
-            datatable(escape = FALSE, rownames = FALSE)
+            datatable(
+                escape = FALSE,
+                rownames = FALSE,
+                options = list(
+                    pageLength = nrow(gfuel),
+                    dom = "ft"
+                )
+            )
     })
 }
 
