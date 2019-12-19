@@ -1,6 +1,7 @@
 ## Libraries ----
 ## Shiny 
 library(shiny)
+library(shinyBS)
 library(shinydashboard)
 library(shinydashboardPlus)
 
@@ -75,10 +76,16 @@ flavors_tried <- gfuel %>%
     unique() %>% 
     length()
 
-t_results <- t.test(x = gfuel$kyle_rating, y = gfuel$lexi_rating) %>% 
-    pluck("p.value")
+suppressWarnings(
+    t_results <- wilcox.test(
+        rating ~ person,
+        paired = TRUE,
+        data = gfuel_long
+    ) %>% 
+        pluck("p.value")
+)
 
-same_taste <- ifelse(t_results >= 0.05, "Yes!", "No.")
+same_taste <- ifelse(t_results >= 0.05, "Yes!*", "No.*")
 
 header = dashboardHeaderPlus(title = "GFuel")
 sidebar = dashboardSidebar(
@@ -121,11 +128,17 @@ body = dashboardBody(
                 ),
                 infoBox(
                     title = "Do Kyle and Lexi have the Same Taste?",
-                    subtitle = "Determined using a t test",
-                    value = same_taste,
+                    value = textOutput("same_taste_text"),
                     fill = TRUE,
                     color = "blue",
                     icon = icon("utensils")
+                ),
+                bsTooltip(
+                    id = "same_taste_text",
+                    title = "Determined using a paired Wilcox test",
+                    placement = "bottom",
+                    trigger = "hover",
+                    options = NULL
                 )
             ),
             ## Profiles ----
@@ -235,6 +248,8 @@ ui <- dashboardPagePlus(
 
 # Define server logic required to draw a histogram
 server <- function(input, output) {
+    
+    output$same_taste_text <- renderText({same_taste})
     
     output$kow_plot <- renderPlot({
         # generate bins based on input$bins from ui.R
