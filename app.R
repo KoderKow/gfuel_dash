@@ -234,7 +234,7 @@ body = dashboardBody(
             HTML("<a href='https://www.r-project.org/about.html' target='_blank'>R</a> and <a href='https://shiny.rstudio.com/' target='_blank'>Shiny</a>. Source code can be found <a href='https://github.com/KoderKow/gfuel_dash' target='_blank'>here</a>!"),
             hr(),
             h2("What is the data source?"), # ADD URLS!
-            HTML("We use <a href='https://www.google.com/sheets/about/' target='_blank'>Google Sheets</a> as a data source and the R package <a href='https://github.com/tidyverse/googlesheets4' target='_blank'>googlesheets4</a> to read in the data.")
+            HTML("We use <a href='https://www.google.com/sheets/about/' target='_blank'>Google Sheets</a> as a data source and the R package <a href='https://github.com/tidyverse/googlesheets4' target='_blank'>googlesheets4</a> to read in the data. Raw data can be found <a href='https://docs.google.com/spreadsheets/d/11JC2nnhlY6pg6zDEuzSMJ8uVDfezTswmXGeQxFPoJOk/edit?usp=sharing' target='_blank'>here</a>.")
         )
     )
 )
