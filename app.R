@@ -85,6 +85,14 @@ suppressWarnings(
         pluck("p.value")
 )
 
+clean_t <- round(t_results, 2)
+
+taste_tool_tip <- str_c(
+    "Determined using a paired Wilcox test (p = ",
+    clean_t,
+    ")."
+)
+
 same_taste <- ifelse(t_results >= 0.05, "Yes!*", "No.*")
 
 header = dashboardHeaderPlus(title = "GFuel")
@@ -135,7 +143,7 @@ body = dashboardBody(
                 ),
                 bsTooltip(
                     id = "same_taste_text",
-                    title = "Determined using a paired Wilcox test",
+                    title = taste_tool_tip,
                     placement = "bottom",
                     trigger = "hover",
                     options = NULL
@@ -231,7 +239,7 @@ body = dashboardBody(
             p("Lexi and I decided it would be fun to try GFuel after seeing many of our liked internet personalities mentioning it. We got a full container of Sour Grape and a sample pack. I thought it would be fun to track our rating per flavor. As someone who works with data and creates shiny dashboards at work, what better idea to do with this data than to create a pretty slick dashboard? :) This is a fun little project Lexi and I have been working on! Hopefully our ratings and findings will bring joy to those who come across this."),
             hr(),
             h2("What is GFuel?"),
-            HTML("Its gamer fuel, fuel for gamers! GFuel's website can explain this better than myself! Check out <a href='https://gfuel.com/pages/energy-for-everyone' target='_blank'>thier website</a>."),
+            HTML("Its gamer fuel, fuel for gamers! GFuel's website can explain this better than myself! Check out this page on <a href='https://gfuel.com/pages/energy-for-everyone' target='_blank'>thier website</a> for thier information and FAQ."),
             hr(),
             h2("How was this built?"),
             HTML("<a href='https://www.r-project.org/about.html' target='_blank'>R</a> and <a href='https://shiny.rstudio.com/' target='_blank'>Shiny</a>. Source code can be found <a href='https://github.com/KoderKow/gfuel_dash' target='_blank'>here</a>!"),
