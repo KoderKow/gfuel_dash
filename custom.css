@@ -1,8 +1,8 @@
 /* Gradient transparent - color - transparent */
 hr {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
 }
 
 #summary_table {
@@ -12,4 +12,12 @@ hr {
 
 .info-box-text {
   text-transform: none;
+}
+
+.skin-blue .main-header .logo {
+  padding: 0 5px;
+}
+
+.skin-blue .sidebar-menu>li.active>a {
+    border-left-color: #C8712D;
 }
