@@ -57,7 +57,11 @@ gfuel_long <- gfuel %>%
         names_to = "person",
         values_to = "favorite"
     ) %>% 
-    mutate_at(c("rater", "person"), ~ str_remove_all(., "_rating|_current_favorite") %>% str_to_title()) %>%
+    mutate_at(
+        c("rater", "person"),
+        ~ str_remove_all(., "_rating|_current_favorite") %>%
+            str_to_title()
+    ) %>%
     filter(rater == person) %>% 
     select(-rater)
 
@@ -261,16 +265,35 @@ body = dashboardBody(
         tabItem(
             tabName = "about",
             h2("What is this?"),
-            p("Lexi and I decided it would be fun to try GFuel after seeing many of our liked internet personalities mentioning it. We initially bought a full container of sour grape and a sample pack. I thought it would be fun to track our ratings per flavor. As someone who works with data and creates shiny dashboards at work, what better idea to do with this data than to create a pretty slick dashboard? :) This is a fun little project Lexi and I have been working on! We will be updating this as we try different flavors over time. Hopefully our ratings and findings will bring joy to those who come across this."),
+            p("My girlfriend Lexi and I decided it would be fun to try the powdered energy brand \"GFuel\" after seeing many of our favorite internet personalities endorsing it and partnering with the company. We initially bought a full container of sour grape and a variety sample pack. I thought it would be fun to track our ratings per flavor. As someone who works with data and creates shiny dashboards at work, what better idea to do with this data than to create a pretty slick dashboard? :) This is a fun little project Lexi and I have been working on! We will be updating this as we try different flavors over time. Hopefully our ratings and findings will bring joy to those who come across this."),
             hr(),
             h2("What is GFuel?"),
-            HTML("Its gamer fuel, fuel for gamers! GFuel's website can explain this better than myself! Check out this page on <a href='https://gfuel.com/pages/energy-for-everyone' target='_blank'>thier website</a> for thier information and FAQ."),
+            HTML("It's gamer fuel, zero-sugar fuel for gamers! GFuel's website can explain this better than myself! Check out this page on <a href='https://gfuel.com/pages/energy-for-everyone' target='_blank'>their website</a> for their information and FAQ."),
             hr(),
             h2("How was this built?"),
             HTML("<a href='https://www.r-project.org/about.html' target='_blank'>R</a> and <a href='https://shiny.rstudio.com/' target='_blank'>Shiny</a>. Source code can be found <a href='https://github.com/KoderKow/gfuel_dash' target='_blank'>here</a>!"),
             hr(),
-            h2("What is the data source?"), # ADD URLS!
-            HTML("We use <a href='https://www.google.com/sheets/about/' target='_blank'>Google Sheets</a> as a data source and the R package <a href='https://github.com/tidyverse/googlesheets4' target='_blank'>googlesheets4</a> to read in the data. Raw data can be found <a href='https://docs.google.com/spreadsheets/d/11JC2nnhlY6pg6zDEuzSMJ8uVDfezTswmXGeQxFPoJOk/edit?usp=sharing' target='_blank'>here</a>.")
+            h2("What is the data source?"),
+            HTML("We use <a href='https://www.google.com/sheets/about/' target='_blank'>Google Sheets</a> as a data source and the R package <a href='https://github.com/tidyverse/googlesheets4' target='_blank'>googlesheets4</a> to read in the data. Raw data can be found <a href='https://docs.google.com/spreadsheets/d/11JC2nnhlY6pg6zDEuzSMJ8uVDfezTswmXGeQxFPoJOk/edit?usp=sharing' target='_blank'>here</a>."),
+            hr(),
+            h2("Additional information"),
+            HTML(
+            "<ul>
+                <li>The paired Wilcox test is used for the \"Same Taste?\" statistic</li>
+                <li>The twitter image URLs are harvested each time the dashboard loads to avoid the issue of URLs changing with avatar updates</li>
+                <li>All flavor types are hotlinks (minus the plots) to the flavor on GFuel's website</li>
+                 <li>This dashboard needs no updates, aside from UI additions, only the data source needs to be updated. The data, profiles, plots, and tables are made directly from the google sheet</li>
+            </ul>"
+            ),
+            hr(),
+            h2("Learning Points"),
+            HTML(
+                "<ul>
+                    <li>Packages: <a href='https://github.com/tidyverse/googlesheets4' target='_blank'>googlesheets4</a> and <a href='https://github.com/RinteRface/shinydashboardPlus' target='_blank'>shinydashboardplus</a></li>
+                    <li>Setting up a google sheet as a data source for a Shiny app</li>
+                    <li><a href='https://rstudio.cloud/' target='_blank'>RStudio Cloud</a></li>
+                </ul>"
+            )
         )
     )
 )
