@@ -261,7 +261,7 @@ body = dashboardBody(
         tabItem(
             tabName = "about",
             h2("What is this?"),
-            p("Lexi and I decided it would be fun to try GFuel after seeing many of our liked internet personalities mentioning it. We got a full container of Sour Grape and a sample pack. I thought it would be fun to track our rating per flavor. As someone who works with data and creates shiny dashboards at work, what better idea to do with this data than to create a pretty slick dashboard? :) This is a fun little project Lexi and I have been working on! Hopefully our ratings and findings will bring joy to those who come across this."),
+            p("Lexi and I decided it would be fun to try GFuel after seeing many of our liked internet personalities mentioning it. We initially bought a full container of sour grape and a sample pack. I thought it would be fun to track our ratings per flavor. As someone who works with data and creates shiny dashboards at work, what better idea to do with this data than to create a pretty slick dashboard? :) This is a fun little project Lexi and I have been working on! We will be updating this as we try different flavors over time. Hopefully our ratings and findings will bring joy to those who come across this."),
             hr(),
             h2("What is GFuel?"),
             HTML("Its gamer fuel, fuel for gamers! GFuel's website can explain this better than myself! Check out this page on <a href='https://gfuel.com/pages/energy-for-everyone' target='_blank'>thier website</a> for thier information and FAQ."),
