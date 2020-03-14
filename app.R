@@ -9,7 +9,18 @@ library(shinydashboardPlus)
 library(tidyverse)
 library(janitor)
 library(lubridate)
+library(rvest)
 library(googlesheets4)
+
+## Functions ----
+get_twitter_image_url <- function(twitter_name) {
+    url <- str_c("https://twitter.com/", twitter_name)
+    
+    read_html(url) %>% 
+        html_nodes("img") %>% 
+        html_attr("src") %>% 
+        str_subset("400x400.jpg$")
+}
 
 ## Display
 library(DT)
@@ -20,6 +31,10 @@ kow_blue <- "#247ba0"
 kow_red <- "#f25f5c"
 lexi_pink <- "#edadc7" 
 lexi_blue <- "#586994"
+
+## Images ----
+kyle_image_url <- get_twitter_image_url("koderkow")
+lexi_image_url <- get_twitter_image_url("plsgivmepizza")
 
 ## Data ----
 sheets_auth(path = "google_app.json")
@@ -82,7 +97,7 @@ suppressWarnings(
         paired = TRUE,
         data = gfuel_long
     ) %>% 
-        pluck("p.value")
+        purrr::pluck("p.value")
 )
 
 clean_t <- round(t_results, 2)
@@ -95,8 +110,18 @@ taste_tool_tip <- str_c(
 
 same_taste <- ifelse(t_results >= 0.05, "Yes!*", "No.*")
 
-header = dashboardHeaderPlus(title = "GFuel")
-sidebar = dashboardSidebar(
+header <- dashboardHeaderPlus(
+    title = tags$a(
+        href = "https://gfuel.com/",
+        tags$img(
+            src = "https://pngimage.net/wp-content/uploads/2018/06/gfuel-logo-png-3.png",
+            width = "40px",
+            style="margin-left: -1px;"
+        )
+    )
+)
+
+sidebar <- dashboardSidebar(
     sidebarMenu(
         ## Profiles
         menuItem(
@@ -156,7 +181,7 @@ body = dashboardBody(
                     title = "GFuel Stats",
                     status = "primary",
                     boxProfile(
-                        src = "https://pbs.twimg.com/profile_images/1143728869851238402/1SoVACjN_400x400.jpg",
+                        src = kyle_image_url,
                         title = "Kyle",
                         subtitle = div(
                             class = "text-center",
@@ -190,7 +215,7 @@ body = dashboardBody(
                     title = "",
                     status = "primary",
                     boxProfile(
-                        src = "https://pbs.twimg.com/profile_images/1035355809620930561/410vAP6r_400x400.jpg",
+                        src = lexi_image_url,
                         title = "Lexi",
                         subtitle = div(
                             class = "text-center",
@@ -305,7 +330,13 @@ server <- function(input, output) {
         
         gfuel %>% 
             arrange(flavor) %>% 
-            select(image = image_url, flavor = flavor_hotlink, date_tried, `Kyle's Rating` = kyle_rating, `Lexi's Rating` = lexi_rating) %>%
+            select(
+                image = image_url,
+                flavor = flavor_hotlink,
+                date_tried,
+                `Kyle's Rating` = kyle_rating,
+                `Lexi's Rating` = lexi_rating
+            ) %>%
             snake_to() %>% 
             datatable(
                 escape = FALSE,
